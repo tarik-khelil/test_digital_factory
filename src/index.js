@@ -4,9 +4,31 @@ import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 
+import { Provider } from 'react-redux'
+import { createStore, applyMiddleware, compose, combineReducers } from 'redux'
+
+import thunk from 'redux-thunk'
+import { BrowserRouter } from 'react-router-dom';
+import itunesReducer from './store/reducers/itunesStore'
+
+
+const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose
+
+//on peut combiné plusieurs reducer avec combineReducers
+const rootReducer = combineReducers({
+  IR: itunesReducer
+})
+
+const store = createStore(rootReducer, composeEnhancers(
+  applyMiddleware(thunk)
+))
+
+
 ReactDOM.render(
   <React.StrictMode>
-    <App />
+    <Provider store={store}>
+      <App />
+    </Provider>
   </React.StrictMode>,
   document.getElementById('root')
 );
